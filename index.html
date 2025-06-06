@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llama.cpp Chat (Direto)</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        #chat-container { width: 90%; max-width: 700px; height: 90vh; background-color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        #chat-box { flex-grow: 1; overflow-y: auto; padding: 20px; border-bottom: 1px solid #ddd; }
+        .message { margin-bottom: 15px; display: flex; flex-direction: column; }
+        .message-content { max-width: 85%; padding: 10px 15px; border-radius: 18px; line-height: 1.4; word-wrap: break-word; }
+        .user-message { align-items: flex-end; }
+        .user-message .message-content { background-color: #007bff; color: white; }
+        .bot-message { align-items: flex-start; }
+        .bot-message .message-content { background-color: #e9e9eb; color: #333; }
+        #input-form { display: flex; padding: 15px; }
+        #user-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 18px; padding: 10px 15px; font-size: 16px; resize: none; }
+        #send-button { background-color: #007bff; color: white; border: none; border-radius: 50%; width: 44px; height: 44px; margin-left: 10px; cursor: pointer; font-size: 20px; flex-shrink: 0; }
+        #send-button:disabled { background-color: #a0c7ff; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <form id="input-form">
+            <textarea id="user-input" placeholder="Digite sua mensagem..." rows="1"></textarea>
+            <button id="send-button" type="submit">➤</button>
+        </form>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const inputForm = document.getElementById('input-form');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        const LLAMACPP_SERVER_URL = '';
+
+        inputForm.addEventListener('submit', handleFormSubmit);
+        
+        userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleFormSubmit(e);
+            }
+        });
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const userMessage = userInput.value.trim();
+            if (!userMessage) return;
+
+            setFormState(true); 
+
+            appendMessage(userMessage, 'user-message');
+            userInput.value = ''; 
+            userInput.style.height = 'auto'; 
+
+            const botMessageElement = appendMessage('', 'bot-message');
+
+            try {
+                const prompt = `\n\n### User:\n${userMessage}\n\n### Assistant:\n`;
+
+                const response = await fetch(LLAMACPP_SERVER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        stream: true,
+                        n_predict: 512, 
+                        temperature: 0.7,
+                        stop: ["### User:", "\nUser:"] 
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                let fullResponse = '';
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const dataJson = line.substring(6);
+                                const data = JSON.parse(dataJson);
+                                fullResponse += data.content;
+                                botMessageElement.innerHTML = fullResponse.replace(/\n/g, '<br>');
+                                chatBox.scrollTop = chatBox.scrollHeight;
+                            } catch (error) {
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                botMessageElement.textContent = `Erro ao conectar com o servidor llama.cpp. Verifique o console do navegador e se o servidor está rodando com a flag --cors.`;
+                console.error('Fetch error:', error);
+            } finally {
+                setFormState(false); 
+            }
+        }
+
+        function setFormState(disabled) {
+            userInput.disabled = disabled;
+            sendButton.disabled = disabled;
+            if (!disabled) {
+                userInput.focus();
+            }
+        }
+
+        function appendMessage(text, className) {
+            const messageWrapper = document.createElement('div');
+            messageWrapper.classList.add('message', className);
+            
+            const messageContent = document.createElement('div');
+            messageContent.classList.add('message-content');
+            messageContent.innerHTML = text.replace(/\n/g, '<br>');
+
+            messageWrapper.appendChild(messageContent);
+            chatBox.appendChild(messageWrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            
+            return messageContent;
+        }
+
+        userInput.addEventListener('input', () => {
+            userInput.style.height = 'auto';
+            userInput.style.height = (userInput.scrollHeight) + 'px';
+        });
+    </script>
+</body>
+</html>
