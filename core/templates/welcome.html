@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao Luna-Chat | Seu Assistente IA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Animações de Entrada */
+        .animate-on-load { opacity: 0; }
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in-zoom {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .fade-in-up-1 { animation: fade-in-up 1s ease-out 0.2s forwards; }
+        .fade-in-up-2 { animation: fade-in-up 1s ease-out 0.4s forwards; }
+        .fade-in-up-3 { animation: fade-in-up 1s ease-out 0.6s forwards; }
+        .fade-in-zoom-4 { animation: fade-in-zoom 0.8s ease-out 0.9s forwards; }
+
+        /* Animação do Fundo de Gradiente */
+        @keyframes spin-slow {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        .animate-spin-slow { animation: spin-slow 40s linear infinite; }
+        .text-glow { text-shadow: 0 0 15px rgba(89, 137, 255, 0.4), 0 0 25px rgba(124, 58, 237, 0.2); }
+
+        /* --- ANIMAÇÃO DOS METEOROS (CORRIGIDA) --- */
+        .meteor {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.6);
+            /* CORREÇÃO: Aplica a animação E o 'fill-mode' */
+            animation: meteor-fall linear infinite;
+            animation-fill-mode: backwards; /* Faz o meteoro esperar invisível */
+        }
+        .meteor::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 2px;
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.5), transparent);
+        }
+
+        /* CORREÇÃO: Keyframes ajustados para começar com opacidade 0 */
+        @keyframes meteor-fall {
+            0% {
+                transform: translate(50px, -50px) rotate(-45deg);
+                opacity: 0; /* Começa invisível */
+            }
+            10% {
+                opacity: 1; /* Aparece rapidamente */
+            }
+            100% {
+                transform: translate(-500px, 600px) rotate(-45deg);
+                opacity: 0; /* Termina invisível */
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white font-sans antialiased">
+
+    <div class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 py-16">
+
+        <div class="absolute top-1/2 left-1/2 w-[80rem] h-[80rem] bg-gradient-to-tr from-indigo-900/40 via-transparent to-sky-900/40 rounded-full animate-spin-slow blur-3xl opacity-40"></div>
+
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+            <span class="meteor" style="top: 15%; right: 5%; animation-duration: 3s; animation-delay: 0s;"></span>
+            <span class="meteor" style="top: 25%; right: 20%; animation-duration: 2.5s; animation-delay: 1s;"></span>
+            <span class="meteor" style="top: 10%; right: 35%; animation-duration: 3.5s; animation-delay: 2s;"></span>
+            <span class="meteor" style="top: 40%; right: 55%; animation-duration: 2.8s; animation-delay: 0.5s;"></span>
+            <span class="meteor" style="top: 5%; right: 70%; animation-duration: 3.2s; animation-delay: 1.5s;"></span>
+            <span class="meteor" style="top: 30%; right: 85%; animation-duration: 2.2s; animation-delay: 2.5s;"></span>
+            <span class="meteor" style="top: 60%; left: 10%; animation-duration: 2.9s; animation-delay: 0.8s;"></span>
+            <span class="meteor" style="top: 70%; left: 30%; animation-duration: 3.1s; animation-delay: 1.8s;"></span>
+            <span class="meteor" style="top: 55%; left: 50%; animation-duration: 2.6s; animation-delay: 2.8s;"></span>
+        </div>
+
+        <main class="z-10 flex flex-col items-center text-center">
+            
+            <div class="animate-on-load fade-in-up-1 mb-4">
+                <h2 class="text-2xl font-semibold text-slate-300">Luna-Chat</h2>
+            </div>
+            <h1 class="animate-on-load fade-in-up-2 text-5xl md:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-sky-400 via-indigo-500 to-purple-500 text-transparent bg-clip-text pb-3 text-glow">
+                Converse com o Futuro.
+            </h1>
+            <p class="animate-on-load fade-in-up-3 mt-4 text-lg md:text-xl text-slate-400 max-w-2xl">
+                Seu assistente de IA para respostas instantâneas, soluções criativas e automação de tarefas com uma eficiência sem precedentes.
+            </p>
+            <div class="animate-on-load fade-in-zoom-4 mt-10">
+                <a href="#chat" class="px-8 py-4 bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-bold text-lg rounded-xl shadow-lg shadow-indigo-600/20 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/40 focus:outline-none focus:ring-4 focus:ring-indigo-500/50">
+                    Iniciar uma Conversa
+                </a>
+            </div>
+
+            <div class="mt-24 w-full max-w-5xl">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700/80 text-center transform transition-all duration-300 hover:-translate-y-2 hover:border-sky-500/50" data-aos="fade-up">
+                        <div class="flex justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                        <h3 class="text-xl font-semibold text-slate-100">Disponibilidade 24/7</h3>
+                        <p class="mt-2 text-slate-400 text-sm">Sempre online para te ajudar, a qualquer hora do dia ou da noite.</p>
+                    </div>
+                    <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700/80 text-center transform transition-all duration-300 hover:-translate-y-2 hover:border-indigo-500/50" data-aos="fade-up" data-aos-delay="200">
+                        <div class="flex justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg></div>
+                        <h3 class="text-xl font-semibold text-slate-100">Respostas Inteligentes</h3>
+                        <p class="mt-2 text-slate-400 text-sm">Compreende contextos complexos para fornecer as melhores soluções.</p>
+                    </div>
+                    <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-700/80 text-center transform transition-all duration-300 hover:-translate-y-2 hover:border-purple-500/50" data-aos="fade-up" data-aos-delay="400">
+                        <div class="flex justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>
+                        <h3 class="text-xl font-semibold text-slate-100">Seguro e Privado</h3>
+                        <p class="mt-2 text-slate-400 text-sm">Suas conversas são criptografadas e mantidas em total confidencialidade.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="absolute bottom-0 left-0 w-full p-6 text-center z-10">
+            <p class="text-slate-500 text-sm">© 2025 Luna-Chat. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            duration: 800,
+            easing: 'ease-in-out',
+        });
+    </script>
+</body>
+</html>
