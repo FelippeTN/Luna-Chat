@@ -1,3 +1,4 @@
+{% load compress %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -11,8 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'src/output.css' %}">
+    {% endcompress %}
 </head>
 <body class="bg-black text-gray-200 font-sans antialiased">
 
@@ -44,7 +46,7 @@
                 Sua assistente de IA para respostas instantâneas, soluções criativas e automação de tarefas com uma eficiência sem precedentes.
             </p>
             <div class="animate-on-load fade-in-zoom-4 mt-10">
-                <a href="#chat" class="px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold text-lg rounded-xl shadow-lg shadow-violet-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/50 focus:outline-none focus:ring-4 focus:ring-violet-500/50">
+                <a href="{% url 'login_view' %}" class=" btn px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold text-lg rounded-xl shadow-lg shadow-violet-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/50 focus:outline-none focus:ring-4 focus:ring-violet-500/50">
                     Iniciar uma Conversa
                 </a>
             </div>
