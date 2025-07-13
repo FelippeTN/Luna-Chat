@@ -1,0 +1,42 @@
+{% load compress %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}Luna-Chat | Sua Assistente IA{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'src/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% endcompress %}
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-black text-gray-200 font-sans antialiased">
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    {% block scripts %}
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            // Inicializa a biblioteca de animação (AOS) em todas as páginas
+            AOS.init({
+                once: true,
+                duration: 800,
+                easing: 'ease-in-out',
+            });
+        </script>
+    {% endblock %}
+</body>
+</html>
