@@ -54,19 +54,26 @@
     }
 }
 
+.animate-border-shine {
+  background-size: 300% 300%;
+   background-image: linear-gradient(to right, rgba(139, 92, 246, 0.6), rgba(236, 72, 153, 0.6), rgba(139, 92, 246, 0.6), rgba(236, 72, 153, 0.6));
+  animation: border-shine 15s ease-in-out infinite; 
+}
+
 @keyframes border-shine {
   0% {
     background-position: 0% 50%;
   }
+  25% {
+    background-position: 100% 50%;
+  }
   50% {
+    background-position: 0% 50%;
+  }
+  75% {
     background-position: 100% 50%;
   }
   100% {
     background-position: 0% 50%;
   }
-}
-
-.animate-border-shine {
-  background-size: 200% 200%;
-  animation: border-shine 5s ease infinite;
 }
