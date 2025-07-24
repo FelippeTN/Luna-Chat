@@ -142,3 +142,6 @@ node_modules/
 
 # CACHE
 CACHE/
+
+# Static files
+staticfiles/
