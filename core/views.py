@@ -18,10 +18,10 @@ def register_view(request):
         password_confirm = request.POST.get('password_confirm')
 
         if password != password_confirm:
-            return render(request, 'register.html', {'error': 'Passwords do not match.'})
+            return render(request, 'register_views/register.html', {'error': 'Passwords do not match.'})
 
         if User.objects.filter(email=email).exists():
-            return render(request, 'register.html', {'error': 'Email already exists.'})
+            return render(request, 'register_views/register.html', {'error': 'Email already exists.'})
 
         user = User.objects.create_user(
             username=username,
@@ -33,14 +33,14 @@ def register_view(request):
 
         return redirect('chat_view')
 
-    return render(request, 'register.html')
+    return render(request, 'register_views/register.html')
 
 
 def login_view(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
+        username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=email, password=password)
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
@@ -48,9 +48,9 @@ def login_view(request):
         else:
             messages.error(request, 'Email ou senha inválidos.')
             return redirect('login_view')
-    return render(request, 'login.html')
+    return render(request, 'register_views/login.html')
 
 
 @login_required
 def chat_view(request):
-    return render(request, 'chat.html')
+    return render(request, 'chat_views/chat.html')
