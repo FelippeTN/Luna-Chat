@@ -51,6 +51,12 @@ def login_view(request):
     return render(request, 'register_views/login.html')
 
 
+def logout_view(request):
+    from django.contrib.auth import logout
+    logout(request)
+    return redirect('welcome_page')
+
+
 @login_required
 def chat_view(request):
     return render(request, 'chat_views/chat.html')
