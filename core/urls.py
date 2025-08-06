@@ -3,7 +3,7 @@ from .views import *
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from .api.api_view import LlmResponseView
+from .api.api_view import *
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -26,6 +26,7 @@ urlpatterns = [
     path('chat/', chat_view, name='chat_view'),
 
     path('api/llm-response/', LlmResponseView.as_view(), name='llm_response'),
+    path('api/get-chats/', GetChats.as_view(), name='get_chats'),
 
     path('swagger/', schema_view.with_ui('swagger',cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc',cache_timeout=0), name='schema-redoc'),
