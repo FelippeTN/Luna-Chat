@@ -8,7 +8,6 @@ class UserConversation(models.Model):
     
     def __str__(self):
         return f"{self.user.username} - {self.conversation_id}"
-    
-    def add_message(self, message):
-        self.messages.append(message)
-        self.save()
+
+    def add_message(self, role: str, content: str):
+        self.messages.append({"role": role, "content": content})
