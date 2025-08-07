@@ -19,20 +19,22 @@
             </header>
 
             <div class="flex-grow flex flex-col p-4 overflow-hidden">
-                
+                <div class="flex flex-col items-center justify-center h-full">
+                    <h class="text-3xl font-semibold text-violet-500 fade-to-white">Hey, {{ user.username }}</h1>
+                </div>
             </div>
 
         
 
-            <div class="mt-auto p-4 w-full flex justify-center z-10">
-                <div class="flex items-center w-full max-w-3xl bg-gray-800/80 backdrop-blur-md border border-violet-900/80 rounded-lg p-4 shadow-lg shadow-violet-600/30">
-                    <textarea placeholder="Digite sua mensagem..." class="flex-grow bg-gray-800 text-gray-200 rounded-lg py-3 px-4 mr-3 focus:outline-none focus:border-fuchsia-500 transition-colors duration-300 placeholder-gray-500 resize-none h-auto min-h-[50px] max-h-[150px]" rows="1"></textarea>
-                    <button class="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg shadow-violet-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/50 focus:outline-none focus:ring-4 focus:ring-violet-500/50">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send">
-                            <path d="m22 2-7 18-9-6-2-2 18-7Z"/>
-                            <path d="M22 2 11 13"/>
-                        </svg>
-                    </button>
+            <div class="mt-auto pb-6 w-full flex justify-center z-10">
+                <div class="flex flex-col w-full max-w-3xl bg-gray-700/30 backdrop-blur-md border border-gray-600/80 rounded-3xl p-2">
+                <textarea placeholder="Digite sua mensagem..." class="text-gray-200 rounded-lg py-3 px-4 mb-3 focus:outline-none transition-colors duration-300 placeholder-gray-500 resize-none h-auto min-h-[30px] max-h-[80px] w-full" rows="1"></textarea>
+                <button class="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold py-3 px-3 rounded-3xl shadow-lg shadow-violet-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/50 focus:outline-none focus:ring-4 focus:ring-violet-500/50 self-end">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send">
+                    <path d="m22 2-7 18-9-6-2-2 18-7Z"/>
+                    <path d="M22 2 11 13"/>
+                    </svg>
+                </button>
                 </div>
             </div>
 
