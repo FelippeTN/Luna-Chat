@@ -3,7 +3,16 @@
         <h3 class="text-xl font-bold text-violet-300">Meus Chats</h3>
     </div>
     <nav class="flex-grow overflow-y-auto custom-scrollbar px-4">
-       
+        {% for chat in chats %}
+        <a href="{% url 'chat_view' %}?conversation_id={{ chat.conversation_id }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-violet-800/20 hover:text-white transition-colors duration-200 rounded-lg group">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span class="truncate">{{ chat.get_first_message_text|default:"Novo Chat" }}</span>
+        </a>
+        {% empty %}
+        <p class="text-gray-500 text-sm px-4">Nenhum chat salvo.</p>
+        {% endfor %}
     </nav>
     <div class="px-4 mt-6">
         <button class="w-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold py-3 rounded-lg shadow-lg shadow-violet-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/50 focus:outline-none focus:ring-4 focus:ring-violet-500/50 flex items-center justify-center">

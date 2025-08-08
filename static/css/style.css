@@ -99,3 +99,21 @@
 textarea {
     overflow: hidden;
 }
+
+.fade-to-white {
+  background: linear-gradient(to right, #8B5CF6 0%, rgb(206, 206, 206) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  animation: smooth-fade 5s linear infinite alternate;
+}
+
+@keyframes smooth-fade {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0% 0;
+  }
+}

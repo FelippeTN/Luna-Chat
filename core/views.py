@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from core.models import UserConversation
 
 
 def welcome_page(request):
@@ -59,4 +59,8 @@ def logout_view(request):
 
 @login_required
 def chat_view(request):
-    return render(request, 'chat_views/chat.html')
+    chats = UserConversation.objects.filter(user=request.user).order_by('-created_at')
+    context = {
+        'chats': chats
+    }
+    return render(request, 'chat_views/chat.html', context)
