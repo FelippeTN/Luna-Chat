@@ -59,8 +59,22 @@ def logout_view(request):
 
 @login_required
 def chat_view(request):
+    conversation_id = request.GET.get('conversation_id')
+    current_conversation = None
+    messages = []
+    
+    if conversation_id:
+        try:
+            current_conversation = UserConversation.objects.get(conversation_id=conversation_id, user=request.user)
+            messages = current_conversation.messages
+        except UserConversation.DoesNotExist:
+            pass
+
     chats = UserConversation.objects.filter(user=request.user).order_by('-created_at')
+
     context = {
-        'chats': chats
+        'chats': chats,
+        'current_conversation': current_conversation,
+        'messages': messages
     }
     return render(request, 'chat_views/chat.html', context)
