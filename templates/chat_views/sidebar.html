@@ -1,17 +1,27 @@
-<aside class="z-20 w-64 bg-gray-900/60 backdrop-blur-md flex flex-col pt-4 pb-6 shadow-xl">
+<aside id="sidebar" class="z-20 w-64 bg-gray-900/60 backdrop-blur-md flex flex-col pt-4 pb-6 shadow-xl">
     <div class="px-4 mb-6">
         <h3 class="text-xl font-bold text-violet-300">Meus Chats</h3>
+
     </div>
     <nav class="flex-grow overflow-y-auto custom-scrollbar px-4">
         {% for chat in chats %}
-        <a href="{% url 'chat_view' %}?conversation_id={{ chat.conversation_id }}" class="flex items-center px-4 py-3 text-gray-400 hover:bg-violet-800/20 hover:text-white transition-colors duration-200 rounded-lg group">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-            </svg>
-            <span class="truncate">{{ chat.get_first_message_text|default:"Novo Chat" }}</span>
-        </a>
-        {% empty %}
-        <p class="text-gray-500 text-sm px-4">Nenhum chat salvo.</p>
+        <div class="relative flex items-center group">
+            <a href="{% url 'chat_view' %}?conversation_id={{ chat.conversation_id }}" class="flex-grow flex items-center px-4 py-3 text-gray-400 hover:bg-violet-800/20 hover:text-white transition-colors duration-200 rounded-lg group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span class="truncate">{{ chat.get_first_message_text|default:"Novo Chat" }}</span>
+            </a>
+            {% csrf_token %}
+            <button type="button" class="delete-chat-button p-2 text-gray-500 hover:text-red-500 transition-colors duration-200" data-conversation-id="{{ chat.conversation_id }}" data-csrf-token="{{ csrf_token }}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+            </button>
+        </div>
         {% endfor %}
     </nav>
     <div class="px-4 mt-6">
