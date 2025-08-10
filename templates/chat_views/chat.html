@@ -72,5 +72,5 @@
     <script>
         document.getElementById('chat-form').dataset.llmApiUrl = "{% url 'llm_response' %}";
     </script>
-    <script src="{% static 'js/handleMessages.js' %}" defer></script>
+    <script type="module" src="{% static 'js/main.js' %}"></script>
 {% endblock %}
