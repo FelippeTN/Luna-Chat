@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('api/llm-response/', LlmResponseView.as_view(), name='llm_response'),
     path('api/get-chats/', GetChats.as_view(), name='get_chats'),
+    path('api/delete-chat/<uuid:chat_id>/', DeleteChat.as_view(), name='delete_chat'),
 
     path('swagger/', schema_view.with_ui('swagger',cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc',cache_timeout=0), name='schema-redoc'),

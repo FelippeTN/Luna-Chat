@@ -106,3 +106,19 @@ class GetChats(APIView):
         serializer = UserConversationSerializer(chats, many=True)
         
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class DeleteChat(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        responses={204: 'Chat deletado com sucesso.'},
+        operation_summary="Deleta uma conversa específica",
+        operation_description="Remove uma conversa específica do usuário autenticado com base no ID da conversa."
+    )
+    def delete(self, request, chat_id):
+        try:
+            chat = UserConversation.objects.get(user=request.user, conversation_id=chat_id)
+            chat.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except UserConversation.DoesNotExist:
+            return Response({"error": "Chat not found."}, status=status.HTTP_404_NOT_FOUND)
