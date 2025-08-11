@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', function() {
         this.style.height = (this.scrollHeight) + 'px';
     });
 
+    textarea.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            chatForm.dispatchEvent(new Event('submit'));
+        }
+    });
+
     chatForm.addEventListener('submit', function(event) {
         event.preventDefault();
         
