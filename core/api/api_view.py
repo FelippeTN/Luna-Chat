@@ -1,19 +1,86 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
 from dotenv import load_dotenv
-import os
-import uuid
+import os, uuid
 from groq import Groq
+from django.http import StreamingHttpResponse
 from drf_yasg.utils import swagger_auto_schema
-from .serializers import UserRequestLLMSerializer
 from ..models import UserConversation
+from .serializers import UserRequestLLMSerializer
 from .serializers import UserRequestLLMSerializer, UserConversationSerializer
 
 load_dotenv()
 GROQ_KEY = os.getenv("GROQ_KEY")
 
+class LlmStreamResponseView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        request_body=UserRequestLLMSerializer,
+        responses={
+            200: 'Resposta do LLM em formato de streaming.',
+            400: 'Erro de requisição, por exemplo, campo "prompt" ausente.'
+        },
+        operation_summary="Envia um prompt para o LLM em modo de streaming",
+        operation_description="Este endpoint recebe um prompt para interagir com o modelo de linguagem grande (LLM) e retorna a resposta em tempo real, em modo de streaming."
+    )
+    def post(self, request):
+        serializer = UserRequestLLMSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        prompt = serializer.validated_data["prompt"]
+        conversation_id = serializer.validated_data.get("conversation_id")
+        max_tokens = serializer.validated_data.get("max_tokens", 2048)
+        temperature = serializer.validated_data.get("temperature", 0.7)
+
+        if conversation_id:
+            conversation, _ = UserConversation.objects.get_or_create(
+                user=request.user,
+                conversation_id=conversation_id
+            )
+        else:
+            conversation_id = str(uuid.uuid4())
+            conversation = UserConversation.objects.create(
+                user=request.user,
+                conversation_id=conversation_id
+            )
+
+        conversation.add_message(role="user", content=prompt)
+
+        client = Groq(api_key=GROQ_KEY)
+        system_message = {
+            "role": "system",
+            "content": "Você é um assistente de IA chamada Luna..."
+        }
+        messages_to_send = [system_message] + conversation.messages
+
+        def stream_generator():
+            full_response = ""
+            try:
+                for chunk in client.chat.completions.create(
+                    messages=messages_to_send,
+                    model="llama-3.3-70b-versatile",
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    stream=True
+                ):
+                    delta = chunk.choices[0].delta.content or ""
+                    if delta:
+                        full_response += delta
+                        yield delta
+                        
+            except Exception as e:
+                yield f"Erro ao gerar a resposta: {str(e)}"
+            finally:
+                if full_response:
+                    conversation.add_message(role="assistant", content=full_response)
+                    conversation.save()
+
+        response = StreamingHttpResponse(stream_generator(), content_type="text/plain; charset=utf-8")
+        response["Conversation-Id"] = conversation_id
+        return response
 
 class LlmResponseView(APIView):
     permission_classes = [IsAuthenticated]

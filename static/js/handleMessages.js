@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const conversationIdInput = document.getElementById('conversation_id');
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     const welcomePlaceholder = document.getElementById('messages-placeholder');
+    let messagesList = document.getElementById('messages-list');
 
     textarea.addEventListener('input', function() {
         this.style.height = 'auto';
@@ -20,11 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     chatForm.addEventListener('submit', function(event) {
         event.preventDefault();
-        
+
         const prompt = textarea.value.trim();
-        if (!prompt) {
-            return;
-        }
+        if (!prompt) return;
 
         const userMessageHtml = `
             <div class="w-full max-w-3xl mb-4 text-right">
@@ -33,13 +32,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         `;
-        
+
         if (welcomePlaceholder) {
             welcomePlaceholder.style.display = 'none';
-            messagesContainer.innerHTML = '<div id="messages-list" class="flex flex-col items-center h-full overflow-y-auto"></div>';
         }
 
-        const messagesList = document.getElementById('messages-list');
+        if (!messagesList) {
+            messagesList = document.createElement('div');
+            messagesList.id = 'messages-list';
+            messagesList.className = 'flex flex-col items-center h-full overflow-y-auto';
+            messagesContainer.appendChild(messagesList);
+        }
+
         messagesList.innerHTML += userMessageHtml;
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
@@ -47,7 +51,16 @@ document.addEventListener('DOMContentLoaded', function() {
         textarea.style.height = 'auto';
 
         const conversationId = conversationIdInput.value || null;
-        const llmApiUrl = chatForm.dataset.llmApiUrl; 
+        const llmApiUrl = chatForm.dataset.llmApiUrl;
+
+        const uniqueResponseId = `streaming-response-${Date.now()}`;
+
+        const llmMessageDiv = document.createElement("div");
+        llmMessageDiv.className = "w-full max-w-3xl mb-4 text-left";
+        llmMessageDiv.innerHTML = `
+            <div class="bg-gray-700 rounded-lg p-3 inline-block max-w-[80%] break-words" id="${uniqueResponseId}"></div>
+        `;
+        messagesList.appendChild(llmMessageDiv);
 
         fetch(llmApiUrl, {
             method: 'POST',
@@ -55,45 +68,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken
             },
-            body: JSON.stringify({ 
-                prompt: prompt, 
-                conversation_id: conversationId 
+            body: JSON.stringify({
+                prompt: prompt,
+                conversation_id: conversationId
             })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            const llmMessageHtml = `
-                <div class="w-full max-w-3xl mb-4 text-left">
-                    <div class="bg-gray-700 rounded-lg p-3 inline-block max-w-[80%] break-words">
-                        ${data.response}
-                    </div>
-                </div>
-            `;
-            messagesList.innerHTML += llmMessageHtml;
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }).then(response => {
+            if (!response.ok) throw new Error("Erro na requisição");
 
+            const newConvId = response.headers.get("Conversation-Id");
             if (!conversationId) {
-                conversationIdInput.value = data.conversation_id;
-                window.history.pushState({}, '', `?conversation_id=${data.conversation_id}`);
-                location.reload(); 
+                conversationIdInput.value = newConvId;
+                window.location.href = `?conversation_id=${newConvId}`;
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            const errorMessageHtml = `
-                <div class="w-full max-w-3xl mb-4 text-left">
-                    <div class="bg-red-500 rounded-lg p-3 inline-block max-w-[80%] break-words">
-                        Ocorreu um erro ao processar sua solicitação.
-                    </div>
-                </div>
-            `;
-            messagesList.innerHTML += errorMessageHtml;
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let buffer = "";
+
+            function readChunk() {
+                reader.read().then(({ done, value }) => {
+                    if (done) return;
+                    buffer += decoder.decode(value, { stream: true });
+                    document.getElementById(uniqueResponseId).textContent = buffer;
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    readChunk();
+                });
+            }
+            readChunk();
+        }).catch(error => {
+            console.error("Erro:", error);
+            document.getElementById(uniqueResponseId).textContent = "Erro ao gerar resposta.";
         });
     });
 });

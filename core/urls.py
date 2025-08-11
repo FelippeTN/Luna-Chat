@@ -26,6 +26,7 @@ urlpatterns = [
     path('chat/', chat_view, name='chat_view'),
 
     path('api/llm-response/', LlmResponseView.as_view(), name='llm_response'),
+    path("api/llm-response-stream/", LlmStreamResponseView.as_view(), name="llm_stream_response"),
     path('api/get-chats/', GetChats.as_view(), name='get_chats'),
     path('api/delete-chat/<uuid:chat_id>/', DeleteChat.as_view(), name='delete_chat'),
 
