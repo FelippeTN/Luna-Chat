@@ -47,7 +47,7 @@
                 <form id="chat-form" class="flex flex-col w-full max-w-3xl bg-gray-700/30 backdrop-blur-md border border-gray-600/80 rounded-3xl p-2">
                     {% csrf_token %}
                     <input type="hidden" name="conversation_id" id="conversation_id" value="{{ current_conversation.conversation_id|default:'' }}">
-                    <textarea name="prompt" id="prompt-input" placeholder="Digite sua mensagem..." class="text-gray-200 rounded-lg py-3 px-4 mb-3 focus:outline-none transition-colors duration-300 placeholder-gray-500 resize-none h-auto min-h-[30px] max-h-[80px] w-full" rows="1"></textarea>
+                    <textarea name="prompt" id="prompt-input" placeholder="Digite sua mensagem..." class="text-gray-200 rounded-lg py-3 px-4 focus:outline-none transition-colors duration-300 placeholder-gray-500 resize-none h-auto min-h-[30px] max-h-[80px] w-full" rows="1"></textarea>
                     <button type="submit" class="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold py-3 px-3 rounded-3xl shadow-lg shadow-violet-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/50 focus:outline-none focus:ring-4 focus:ring-violet-500/50 self-end">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send">
                         <path d="m22 2-7 18-9-6-2-2 18-7Z"/>
