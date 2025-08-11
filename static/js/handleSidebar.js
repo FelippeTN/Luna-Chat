@@ -1,3 +1,26 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleButton = document.getElementById('toggle-sidebar-button');
+    const sidebar = document.getElementById('sidebar');
+    const conversationsContainer = document.getElementById('conversations-container');
+    const newChatButton = document.querySelector('a.w-full.bg-gradient-to-r');
+
+    toggleButton.addEventListener('click', () => {
+        const isSidebarCollapsed = sidebar.classList.toggle('-translate-x-full');
+        
+        if (isSidebarCollapsed) {
+            sidebar.classList.add('w-16');
+            sidebar.classList.remove('w-64');
+            conversationsContainer.classList.add('hidden');
+            newChatButton.classList.add('hidden'); 
+        } else {
+            sidebar.classList.add('w-64');
+            sidebar.classList.remove('w-16');
+            conversationsContainer.classList.remove('hidden');
+            newChatButton.classList.remove('hidden'); 
+        }
+    });
+});
+
 document.querySelectorAll('.delete-chat-button').forEach(button => {
     button.addEventListener('click', () => {
         const conversationId = button.dataset.conversationId;
