@@ -145,3 +145,6 @@ CACHE/
 
 # Static files
 staticfiles/
+
+# TAILWIND
+static/css/tailwind/output.css
