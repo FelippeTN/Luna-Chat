@@ -6,11 +6,21 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=luna-chat
+      - POSTGRES_DB=LunaChat
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234
     ports:
       - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
 
   tailwind:
     image: node:20-alpine
@@ -21,7 +31,6 @@ services:
     depends_on:
       - web
 
-
   web:
     build: .
     command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
@@ -30,7 +39,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - POSTGRES_DB=luna-chat
+      - POSTGRES_DB=LunaChat
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234
       - POSTGRES_HOST=db
