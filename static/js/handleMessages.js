@@ -78,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const newConvId = response.headers.get("Conversation-Id");
             if (!conversationId) {
                 conversationIdInput.value = newConvId;
-                window.location.href = `?conversation_id=${newConvId}`;
             }
 
             const reader = response.body.getReader();
@@ -91,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     buffer += decoder.decode(value, { stream: true });
                     document.getElementById(uniqueResponseId).textContent = buffer;
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    window.location.href = `?conversation_id=${newConvId}`;
                     readChunk();
                 });
             }

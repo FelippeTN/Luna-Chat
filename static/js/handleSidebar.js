@@ -1,7 +1,7 @@
 const toggleButton = document.getElementById('toggle-sidebar-button');
 const sidebar = document.getElementById('sidebar');
 const conversationsContainer = document.getElementById('conversations-container');
-const newChatButton = document.querySelector('.new-chat-button'); // Seletor corrigido
+const newChatButton = document.querySelector('.new-chat-button');
 
 toggleButton.addEventListener('click', () => {
     const isSidebarCollapsed = sidebar.classList.toggle('-translate-x-full');
