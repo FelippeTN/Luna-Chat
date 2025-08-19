@@ -11,15 +11,15 @@
 
         {% include "chat_views/sidebar.html" %}
 
-        <div class="flex-grow ps-4 pe-4 flex flex-col z-10">
+        <div id="main-content" class="flex-grow ps-64 pe-4 flex flex-col z-10 transition-all duration-300 h-screen">
             <header class="w-full p-3 flex justify-between items-center">
                 <h3 class="text-2xl font-semibold text-white">Luna-Chat</h3>
                 <a href="{% url 'logout_view' %}" class="text-white hover:text-fuchsia-400 transition-colors duration-300">Sair</a>
             </header>
 
-           <div id="messages-container" class="flex-grow flex flex-col p-4 overflow-hidden">
+        <div id="messages-container" class="flex-grow flex flex-col p-4 overflow-y-auto">
                 {% if messages %}
-                    <div id="messages-list" class="flex flex-col items-center h-full overflow-y-auto">
+                    <div id="messages-list" class="flex flex-col items-center">
                         {% for message in messages %}
                             {% if message.role == 'user' %}
                                 <div class="w-full max-w-3xl mb-4 text-right">
@@ -29,7 +29,7 @@
                                 </div>
                             {% else %}
                                 <div class="w-full max-w-3xl mb-4 text-left">
-                                    <div class="bg-gray-700 rounded-lg p-3 inline-block max-w-[80%] break-words">
+                                    <div class="rounded-lg p-3 inline-block max-w-[100%] break-words">
                                         {{ message.content }}
                                     </div>
                                 </div>
@@ -43,7 +43,7 @@
                 {% endif %}
             </div>
                     
-            <div class="mt-auto pb-6 w-full flex justify-center z-10">
+            <div class="mt-auto pb-3 w-full flex justify-center z-10">
                 <form id="chat-form" class="flex flex-col w-full max-w-3xl bg-gray-700/30 backdrop-blur-md border border-gray-600/80 rounded-3xl p-2">
                     {% csrf_token %}
                     <input type="hidden" name="conversation_id" id="conversation_id" value="{{ current_conversation.conversation_id|default:'' }}">
@@ -58,7 +58,7 @@
             </div>
 
 
-            <footer class="w-full text-center bg-black/50">
+            <footer class="w-full text-center pb-2">
                 <p class="text-gray-600 text-sm">© 2025 Luna-Chat. Todos os direitos reservados.</p>
             </footer>
         </div>
