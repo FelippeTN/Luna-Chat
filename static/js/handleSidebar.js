@@ -1,21 +1,22 @@
 const toggleButton = document.getElementById('toggle-sidebar-button');
 const sidebar = document.getElementById('sidebar');
+const mainContent = document.getElementById('main-content');
 const conversationsContainer = document.getElementById('conversations-container');
 const newChatButton = document.querySelector('.new-chat-button');
+const sidebarButtons = document.getElementById('sidebar-buttons');
 
 toggleButton.addEventListener('click', () => {
-    const isSidebarCollapsed = sidebar.classList.toggle('-translate-x-full');
+    const isSidebarCollapsed = sidebar.classList.toggle('w-64');
+    sidebar.classList.toggle('w-16');
+    mainContent.classList.toggle('ps-64');
+    mainContent.classList.toggle('ps-16');
 
-    if (isSidebarCollapsed) {
-        sidebar.classList.add('w-16');
-        sidebar.classList.remove('w-64');
+    if (!isSidebarCollapsed) {
         conversationsContainer.classList.add('hidden');
-        newChatButton.classList.add('hidden'); 
+        newChatButton.classList.add('hidden');
     } else {
-        sidebar.classList.add('w-64');
-        sidebar.classList.remove('w-16');
         conversationsContainer.classList.remove('hidden');
-        newChatButton.classList.remove('hidden'); 
+        newChatButton.classList.remove('hidden');
     }
 });
 
@@ -27,12 +28,12 @@ document.querySelectorAll('.delete-chat-button').forEach(button => {
         fetch(`/api/delete-chat/${conversationId}/`, {
             method: 'DELETE',
             headers: {
-                'X-CSRFToken': csrfToken, 
+                'X-CSRFToken': csrfToken,
             }
         })
         .then(response => {
             if (response.status === 204) {
-                window.location.reload(); 
+                window.location.reload();
             } else {
                 console.error('Falha ao deletar o chat.');
             }

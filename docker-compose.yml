@@ -27,7 +27,7 @@ services:
     volumes:
       - .:/usr/src/app
     working_dir: /usr/src/app
-    command: sh -c "npm install && npx tailwindcss -i ./static/css/main.css -o ./static/css/tailwind/output.css --watch"
+    command: sh -c "npm install && npx @tailwindcss/cli -i ./static/css/main.css -o ./static/css/tailwind/output.css --watch & wait"
     depends_on:
       - web
 
