@@ -11,13 +11,13 @@
 
         {% include "chat_views/sidebar.html" %}
 
-        <div id="main-content" class="flex-grow ps-64 pe-4 flex flex-col z-10 transition-all duration-300 h-screen">
+        <div id="main-content" class="flex-grow ps-64 pe-0 flex flex-col z-10 transition-all duration-300 h-screen">
             <header class="w-full p-3 ps-4 pe-4 flex justify-between items-center">
                 <h3 class="text-2xl font-semibold text-white">Luna-Chat</h3>
                 <a href="{% url 'logout_view' %}" class="text-white hover:text-fuchsia-400 transition-colors duration-300">Sair</a>
             </header>
 
-        <div id="messages-container" class="flex-grow flex flex-col p-4 overflow-y-auto">
+        <div id="messages-container" class="flex-grow flex flex-col p-4 overflow-y-auto custom-scrollbar">
                 {% if messages %}
                     <div id="messages-list" class="flex flex-col items-center">
                         {% for message in messages %}
