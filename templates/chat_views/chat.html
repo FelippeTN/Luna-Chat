@@ -12,7 +12,7 @@
         {% include "chat_views/sidebar.html" %}
 
         <div id="main-content" class="flex-grow ps-64 pe-4 flex flex-col z-10 transition-all duration-300 h-screen">
-            <header class="w-full p-3 flex justify-between items-center">
+            <header class="w-full p-3 ps-4 pe-4 flex justify-between items-center">
                 <h3 class="text-2xl font-semibold text-white">Luna-Chat</h3>
                 <a href="{% url 'logout_view' %}" class="text-white hover:text-fuchsia-400 transition-colors duration-300">Sair</a>
             </header>
@@ -56,7 +56,6 @@
                     </button>
                 </form>
             </div>
-
 
             <footer class="w-full text-center pb-2">
                 <p class="text-gray-600 text-sm">© 2025 Luna-Chat. Todos os direitos reservados.</p>

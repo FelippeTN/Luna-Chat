@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const llmMessageDiv = document.createElement("div");
         llmMessageDiv.className = "w-full max-w-3xl mb-4 text-left";
         llmMessageDiv.innerHTML = `
-            <div class="bg-gray-700 rounded-lg p-3 inline-block max-w-[80%] break-words" id="${uniqueResponseId}"></div>
+            <div class="rounded-lg p-3 inline-block max-w-[80%] break-words" id="${uniqueResponseId}"></div>
         `;
         messagesList.appendChild(llmMessageDiv);
 
