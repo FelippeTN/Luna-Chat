@@ -3,11 +3,11 @@
 {% block title %}Bem-vindo ao Luna-Chat | Sua Assistente IA{% endblock %}
 
 {% block content %}
-<body class="bg-black text-gray-200 font-sans antialiased">
+<body class="bg-neutral-900 text-gray-200 font-sans antialiased">
 
     <div class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 py-16">
 
-        <div class="absolute top-1/2 left-1/2 w-[80rem] h-[80rem] bg-gradient-to-tr from-violet-900/50 via-transparent to-fuchsia-900/50 rounded-full animate-spin-slow blur-3xl opacity-60"></div>
+        <div class="absolute top-1/2 left-1/2 w-[80rem] h-[80rem] bg-gradient-to-tr from-gray-900/50 via-transparent to-gray-900/50 rounded-full blur-3xl opacity-60"></div>
 
         {% include "meteors.html" %}
 
@@ -16,32 +16,32 @@
             <div class="animate-on-load fade-in-up-1 mb-4">
                  <h2 class="text-2xl font-semibold text-violet-300">Luna-Chat</h2>
             </div>
-            <h1 class="animate-on-load fade-in-up-2 text-5xl md:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-fuchsia-500 via-violet-500 to-purple-600 text-transparent bg-clip-text pb-3 text-glow">
+            <h1 class="animate-on-load fade-in-up-2 text-5xl md:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-fuchsia-500 via-violet-500 to-purple-600 text-transparent bg-clip-text pb-3">
                 Converse com o Futuro.
             </h1>
             <p class="animate-on-load fade-in-up-3 mt-4 text-lg md:text-xl text-gray-400 max-w-2xl">
                 Sua assistente de IA para respostas instantâneas, soluções criativas e automação de tarefas com uma eficiência sem precedentes.
             </p>
             <div class="animate-on-load fade-in-zoom-4 mt-10">
-                <a href="{% url 'login_view' %}" class=" btn px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold text-lg rounded-xl shadow-lg shadow-violet-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/50 focus:outline-none focus:ring-4 focus:ring-violet-500/50">
+                <a href="{% url 'login_view' %}" class=" btn px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold text-lg rounded-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-violet-500/50">
                     Iniciar uma Conversa
                 </a>
             </div>
 
             <div class="mt-24 w-full max-w-5xl">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-gray-900/40 backdrop-blur-sm p-6 rounded-2xl border border-violet-900/80 text-center transform transition-all duration-300 hover:-translate-y-2 hover:border-violet-500/60" data-aos="fade-up">
-                        <div class="flex justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                    <div class="bg-gray-900/40 backdrop-blur-sm p-6 rounded-2xl border border-gray-900/80 text-center transform transition-all duration-300 hover:-translate-y-2 hover:border-gray-500/60" data-aos="fade-up">
+                        <div class="flex justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
                         <h3 class="text-xl font-semibold text-gray-100">Disponibilidade 24/7</h3>
                         <p class="mt-2 text-gray-400 text-sm">Sempre online para te ajudar, a qualquer hora do dia ou da noite.</p>
                     </div>
-                    <div class="bg-gray-900/40 backdrop-blur-sm p-6 rounded-2xl border border-violet-900/80 text-center transform transition-all duration-300 hover:-translate-y-2 hover:border-violet-500/60" data-aos="fade-up" data-aos-delay="200">
-                        <div class="flex justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg></div>
+                    <div class="bg-gray-900/40 backdrop-blur-sm p-6 rounded-2xl border border-gray-900/80 text-center transform transition-all duration-300 hover:-translate-y-2 hover:border-gray-500/60" data-aos="fade-up" data-aos-delay="200">
+                        <div class="flex justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg></div>
                         <h3 class="text-xl font-semibold text-gray-100">Respostas Inteligentes</h3>
                         <p class="mt-2 text-gray-400 text-sm">Compreende contextos complexos para fornecer as melhores soluções.</p>
                     </div>
-                    <div class="bg-gray-900/40 backdrop-blur-sm p-6 rounded-2xl border border-violet-900/80 text-center transform transition-all duration-300 hover:-translate-y-2 hover:border-violet-500/60" data-aos="fade-up" data-aos-delay="400">
-                        <div class="flex justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>
+                    <div class="bg-gray-900/40 backdrop-blur-sm p-6 rounded-2xl border border-gray-900/80 text-center transform transition-all duration-300 hover:-translate-y-2 hover:border-gray-500/60" data-aos="fade-up" data-aos-delay="400">
+                        <div class="flex justify-center mb-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg></div>
                         <h3 class="text-xl font-semibold text-gray-100">Seguro e Privado</h3>
                         <p class="mt-2 text-gray-400 text-sm">Suas conversas são criptografadas e mantidas em total confidencialidade.</p>
                     </div>
