@@ -3,18 +3,18 @@
 {% block title %}Luna-Chat | Converse com a IA{% endblock %}
 
 {% block content %}
-<body class="bg-black text-gray-200 font-sans antialiased flex flex-col min-h-screen">
+<body class="text-neutral-200 font-sans antialiased flex flex-col min-h-screen">
 
     <div class="relative min-h-screen flex overflow-hidden">
 
-        <div class="absolute top-1/2 left-1/2 w-[80rem] h-[80rem] bg-gradient-to-tr from-violet-900/50 via-transparent to-fuchsia-900/50 rounded-full animate-spin-slow blur-3xl opacity-60"></div>
+        <div class="absolute top-1/2 left-1/2 w-[80rem] h-[80rem] bg-gradient-to-tr from-neutral-900/50 via-transparent to-neutral-900/50 rounded-full blur-3xl opacity-60"></div>
 
         {% include "chat_views/sidebar.html" %}
 
         <div id="main-content" class="flex-grow ps-64 pe-0 flex flex-col z-10 transition-all duration-300 h-screen">
             <header class="w-full p-3 ps-4 pe-4 flex justify-between items-center">
                 <h3 class="text-2xl font-semibold text-white">Luna-Chat</h3>
-                <a href="{% url 'logout_view' %}" class="text-white hover:text-fuchsia-400 transition-colors duration-300">Sair</a>
+                <a href="{% url 'logout_view' %}" class="text-white hover:text-neutral-400 transition-colors duration-300">Sair</a>
             </header>
 
         <div id="messages-container" class="flex-grow flex flex-col p-4 overflow-y-auto custom-scrollbar">
@@ -23,7 +23,7 @@
                         {% for message in messages %}
                             {% if message.role == 'user' %}
                                 <div class="w-full max-w-3xl mb-4 text-right">
-                                    <div class="bg-violet-600/70 text-white rounded-lg p-3 inline-block max-w-[80%] break-words">
+                                    <div class="bg-neutral-600/70 text-white rounded-lg p-3 inline-block max-w-[80%] break-words">
                                         {{ message.content }}
                                     </div>
                                 </div>
@@ -38,17 +38,17 @@
                     </div>
                 {% else %}
                     <div id="messages-placeholder" class="flex flex-col items-center justify-center h-full">
-                        <h1 class="text-3xl font-semibold text-violet-500 fade-to-white">Hey, {{ user.username }}</h1>
+                        <h1 class="text-4xl font-semibold text-neutral-400 fade-to-white p-4">Hey, {{ user.username }}</h1>
                     </div>
                 {% endif %}
             </div>
                     
             <div class="mt-auto pb-3 w-full flex justify-center z-10">
-                <form id="chat-form" class="flex flex-col w-full max-w-3xl bg-gray-700/30 backdrop-blur-md border border-gray-600/80 rounded-3xl p-2">
+                <form id="chat-form" class="flex flex-col w-full max-w-3xl backdrop-blur-md border border-neutral-600/80 rounded-3xl p-2">
                     {% csrf_token %}
                     <input type="hidden" name="conversation_id" id="conversation_id" value="{{ current_conversation.conversation_id|default:'' }}">
-                    <textarea name="prompt" id="prompt-input" placeholder="Digite sua mensagem..." class="text-gray-200 rounded-lg py-3 px-4 focus:outline-none transition-colors duration-300 placeholder-gray-500 resize-none h-auto min-h-[30px] max-h-[80px] w-full" rows="1"></textarea>
-                    <button type="submit" class="bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold py-3 px-3 rounded-3xl shadow-lg shadow-violet-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-violet-500/50 focus:outline-none focus:ring-4 focus:ring-violet-500/50 self-end">
+                    <textarea name="prompt" id="prompt-input" placeholder="Digite sua mensagem..." class="text-neutral-200 rounded-lg py-3 px-4 focus:outline-none transition-colors duration-300 placeholder-neutral-500 resize-none h-auto min-h-[30px] max-h-[80px] w-full" rows="1"></textarea>
+                    <button type="submit" class="bg-neutral-600 text-white font-bold py-3 px-3 rounded-3xl shadow-lg shadow-neutral-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-neutral-500/50 focus:outline-none focus:ring-4 focus:ring-neutral-500/50 self-end">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send">
                         <path d="m22 2-7 18-9-6-2-2 18-7Z"/>
                         <path d="M22 2 11 13"/>
@@ -58,7 +58,7 @@
             </div>
 
             <footer class="w-full text-center pb-2">
-                <p class="text-gray-600 text-sm">© 2025 Luna-Chat. Todos os direitos reservados.</p>
+                <p class="text-neutral-600 text-sm">© 2025 Luna-Chat. Todos os direitos reservados.</p>
             </footer>
         </div>
     </div>
