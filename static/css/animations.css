@@ -14,8 +14,6 @@
 .fade-in-up-3 { animation: fade-in-up 1s ease-out 0.6s forwards; }
 .fade-in-zoom-4 { animation: fade-in-zoom 0.8s ease-out 0.9s forwards; }
 
-.text-glow { text-shadow: 0 0 15px rgba(89, 137, 255, 0.4), 0 0 25px rgba(124, 58, 237, 0.2); }
-
 .meteor {
     position: absolute;
     width: 2px;
@@ -53,8 +51,8 @@
 
 .animate-border-shine {
   background-size: 300% 300%;
-  background-image: linear-gradient(to right, rgba(139, 92, 246, 0.6), rgba(236, 72, 153, 0.6), rgba(139, 92, 246, 0.6), rgba(236, 72, 153, 0.6));
-  animation: border-shine 15s ease-in-out infinite; 
+  background-image: linear-gradient(to right, rgba(139, 92, 246, 0.6), rgb(206, 206, 206), rgba(139, 92, 246, 0.6), rgb(206, 206, 206));
+  animation: border-shine 20s ease-in-out infinite; 
 }
 
 @keyframes border-shine {

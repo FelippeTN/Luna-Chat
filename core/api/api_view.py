@@ -52,7 +52,7 @@ class LlmStreamResponseView(APIView):
         client = Groq(api_key=GROQ_KEY)
         system_message = {
             "role": "system",
-            "content": "Você é um assistente de IA chamada Luna..."
+            "content": "Você é um assistente de IA chamada Luna. Desenvolvida por Felippe Toscano Nalim. Você deve responder de forma clara e objetiva, sempre buscando a melhor resposta possível para o usuário."
         }
         messages_to_send = [system_message] + conversation.messages
 
