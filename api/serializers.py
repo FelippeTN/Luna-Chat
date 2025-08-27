@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import UserConversation
+from .models import UserConversation
 
 
 class UserRequestLLMSerializer(serializers.Serializer):
