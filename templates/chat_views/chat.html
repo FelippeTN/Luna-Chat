@@ -46,14 +46,28 @@
             <div class="mt-auto pb-3 w-full flex justify-center z-10">
                 <form id="chat-form" class="flex flex-col w-full max-w-3xl backdrop-blur-md border border-neutral-600/80 rounded-3xl p-2">
                     {% csrf_token %}
+                     <input type="file" id="file-input" name="file" class="hidden">
+                    <div id="file-display" class="w-full bg-neutral-700 text-white text-sm p-2 rounded-t-xl mb-2 hidden">
+                        <span id="file-name" class="truncate"></span>
+                        <button type="button" id="remove-file-button" class="float-right text-neutral-400 hover:text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
                     <input type="hidden" name="conversation_id" id="conversation_id" value="{{ current_conversation.conversation_id|default:'' }}">
                     <textarea name="prompt" id="prompt-input" placeholder="Digite sua mensagem..." class="text-neutral-200 rounded-lg py-3 px-4 focus:outline-none transition-colors duration-300 placeholder-neutral-500 resize-none h-auto min-h-[30px] max-h-[80px] w-full" rows="1"></textarea>
-                    <button type="submit" class="bg-neutral-600 text-white font-bold py-3 px-3 rounded-3xl shadow-lg shadow-neutral-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-neutral-500/50 focus:outline-none focus:ring-4 focus:ring-neutral-500/50 self-end">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send">
-                        <path d="m22 2-7 18-9-6-2-2 18-7Z"/>
-                        <path d="M22 2 11 13"/>
-                        </svg>
-                    </button>
+                    <div class="flex justify-between items-center mt-2">
+                        <button type="file" id="file-input-button" class="text-neutral-400 hover:text-neutral-200 transition-colors duration-300 hover:bg-neutral-700/50 p-3 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <line x1="12" y1="5" x2="12" y2="19" stroke-width="2" stroke-linecap="round"/>
+                                <line x1="5" y1="12" x2="19" y2="12" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                        <button type="submit" class="bg-neutral-600 text-white font-bold py-3 px-3 rounded-3xl shadow-lg shadow-neutral-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-neutral-500/50 focus:outline-none focus:ring-4 focus:ring-neutral-500/50 self-end">
+                            <img src="{% static 'img/send_icon.png' %}" alt="Enviar" class="h-5 w-5">
+                        </button>
+                    </div>
                 </form>
             </div>
 

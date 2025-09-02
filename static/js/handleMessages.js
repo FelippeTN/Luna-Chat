@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const userMessageHtml = `
             <div class="w-full max-w-3xl mb-4 text-right">
-                <div class="bg-violet-600/70 text-white rounded-lg p-3 inline-block max-w-[80%] break-words">
+                <div class="bg-neutral-600/70 text-white rounded-lg p-3 inline-block max-w-[80%] break-words">
                     ${prompt}
                 </div>
             </div>
