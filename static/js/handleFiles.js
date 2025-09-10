@@ -9,13 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let uploadedFile = null;
 
-    
-        // Lidar com o clique no botão de upload
         fileInputButton.addEventListener('click', () => {
             fileInput.click();
         });
 
-        // Lidar com a seleção de arquivo
         fileInput.addEventListener('change', (event) => {
             const files = event.target.files;
             if (files.length > 0) {
@@ -26,21 +23,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Lidar com a remoção do arquivo
         removeFileButton.addEventListener('click', () => {
             uploadedFile = null;
-            fileInput.value = null; // Limpa o input de arquivo
+            fileInput.value = null;
             fileDisplay.classList.add('hidden');
             console.log('Arquivo removido.');
         });
 
-        // Lidar com o envio do formulário
         chatForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
             const prompt = promptInput.value.trim();
             if (!prompt && !uploadedFile) {
-                return; // Não envia se não houver texto nem arquivo
+                return;
             }
 
             const formData = new FormData();
@@ -64,6 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Limpar o input e o arquivo após o envio
             promptInput.value = '';
-            removeFileButton.click(); // Usa o clique do botão para limpar o arquivo
+            removeFileButton.click();
         });
     });
