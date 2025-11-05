@@ -2,6 +2,10 @@
 
 A modern AI-powered chat application built with Django and powered by Groq's LLaMA models. Luna-Chat provides an intuitive interface for real-time conversations with AI, featuring user authentication, conversation management, and streaming responses.
 
+## 🐶 Who was Luna?
+
+Well, Luna was my dog... she was with me for 9 years and due to complications from diabetes, she unfortunately passed away. She was simply the best and most loyal companion of my days, I miss you, Luna <3
+
 ## 🚀 Features
 
 - **Real-time AI Chat**: Powered by Groq's LLaMA-3.3-70b-versatile model
