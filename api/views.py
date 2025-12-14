@@ -37,10 +37,11 @@ class LlmStreamResponseView(APIView):
         temperature = serializer.validated_data.get("temperature", 0.7)
         file_obj = serializer.validated_data.get("file")
         
-        final_prompt = prompt
+        extracted_text = None
+        file_name = None
         if file_obj:
             extracted_text = extract_text_from_file(file_obj)
-            final_prompt = f"{prompt}\n\nTexto extraído do documento:\n{extracted_text}"
+            file_name = file_obj.name
 
         if conversation_id:
             conversation, _ = UserConversation.objects.get_or_create(
@@ -54,14 +55,29 @@ class LlmStreamResponseView(APIView):
                 conversation_id=conversation_id
             )
 
-        conversation.add_message(role="user", content=final_prompt)
+        user_message_content = prompt
+        if file_name:
+            user_message_content = f"{prompt}\n\n📎 Documento anexado: {file_name}"
+        conversation.add_message(role="user", content=user_message_content)
+        
+        llm_prompt = prompt
+        if extracted_text:
+            llm_prompt = f"{prompt}\n\nTexto extraído do documento:\n{extracted_text}"
 
         client = Groq(api_key=GROQ_KEY)
         system_message = {
             "role": "system",
             "content": "Você é um assistente de IA chamada Luna. Desenvolvida por Felippe Toscano Nalim. Você deve responder de forma clara e objetiva, sempre buscando a melhor resposta possível para o usuário."
         }
-        messages_to_send = [system_message] + conversation.messages
+        
+        messages_for_llm = []
+        for msg in conversation.messages:
+            if msg == conversation.messages[-1] and msg["role"] == "user":
+                messages_for_llm.append({"role": "user", "content": llm_prompt})
+            else:
+                messages_for_llm.append(msg)
+        
+        messages_to_send = [system_message] + messages_for_llm
 
         def stream_generator():
             full_response = ""

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load chat_filters %}
 {% block title %}Luna-Chat | Converse com a IA{% endblock %}
 
 {% block content %}
@@ -22,8 +23,15 @@
                             {% if message.role == 'user' %}
                                 <div class="w-full max-w-3xl mb-4 text-right">
                                     <div class="bg-neutral-600/70 text-white rounded-lg p-3 inline-block max-w-[80%] break-words">
-                                        {{ message.content }}
+                                        {{ message.content|get_message_text }}
                                     </div>
+                                    {% if message.content|has_document %}
+                                    <div class="w-full max-w-3xl text-right mt-2">
+                                        <div class="bg-neutral-700 text-neutral-300 rounded-lg p-3 inline-block max-w-[80%] break-words text-sm">
+                                            📎 <span class="font-semibold">{{ message.content|get_document_name }}</span>
+                                        </div>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             {% else %}
                                 <div class="w-full max-w-3xl mb-4 text-left">
@@ -56,7 +64,7 @@
                     <input type="hidden" name="conversation_id" id="conversation_id" value="{{ current_conversation.conversation_id|default:'' }}">
                     <textarea name="prompt" id="prompt-input" placeholder="Digite sua mensagem..." class="text-neutral-200 rounded-lg py-3 px-4 focus:outline-none transition-colors duration-300 placeholder-neutral-500 resize-none h-auto min-h-[30px] max-h-[80px] w-full" rows="1"></textarea>
                     <div class="flex justify-between items-center mt-2">
-                        <button type="file" id="file-input-button" class="text-neutral-400 hover:text-neutral-200 transition-colors duration-300 hover:bg-neutral-700/50 p-3 rounded-full">
+                        <button type="button" id="file-input-button" class="text-neutral-400 hover:text-neutral-200 transition-colors duration-300 hover:bg-neutral-700/50 p-3 rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <line x1="12" y1="5" x2="12" y2="19" stroke-width="2" stroke-linecap="round"/>
                                 <line x1="5" y1="12" x2="19" y2="12" stroke-width="2" stroke-linecap="round"/>
@@ -82,9 +90,10 @@
     {{ block.super }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
-    <script src="{% static 'js/handlers/filetextExtractorHandler.js' %}"></script>
+    <script src="{% static 'js/handlers/fileTextExtractorHandler.js' %}"></script>
     <script src="{% static 'js/handlers/filesHandler.js' %}"></script>
-    <script src="{% static 'js/handlers/MessagesHandler.js' %}"></script>
+    <script src="{% static 'js/handlers/messagesHandler.js' %}"></script>
+    <script src="{% static 'js/handlers/sidebarHandler.js' %}"></script>
     <script>
         document.getElementById('chat-form').dataset.llmApiUrl = "{% url 'llm_stream_response' %}";
     </script>

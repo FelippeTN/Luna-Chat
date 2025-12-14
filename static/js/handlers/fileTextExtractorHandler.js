@@ -1,26 +1,52 @@
-/**
- * Extrai texto de diferentes tipos de arquivo no cliente
- */
-
-class FileTextExtractor {
+class FileFormatValidator {
     constructor() {
         this.supportedFormats = ['pdf', 'docx', 'pptx', 'txt'];
+        this.serverProcessedFormats = ['docx', 'pptx'];
     }
 
-    /**
-     * Método principal para extrair texto
-     */
-    async extractText(file) {
-        const extension = this.getFileExtension(file.name);
+    getFileExtension(filename) {
+        return filename.split('.').pop().toLowerCase();
+    }
 
-        if (!this.supportedFormats.includes(extension)) {
+    isSupported(file) {
+        const extension = this.getFileExtension(file.name);
+        return this.supportedFormats.includes(extension);
+    }
+
+    isServerProcessed(file) {
+        const extension = this.getFileExtension(file.name);
+        return this.serverProcessedFormats.includes(extension);
+    }
+
+    getErrorMessage(extension) {
+        return `Formato não suportado: ${extension}. Suporte: PDF, DOCX, PPTX, TXT`;
+    }
+}
+
+class TextExtractor {
+    constructor() {
+        this.validator = new FileFormatValidator();
+    }
+
+    async extract(file) {
+        if (!this.validator.isSupported(file)) {
+            const extension = this.validator.getFileExtension(file.name);
             return {
                 success: false,
-                message: `Formato não suportado: ${extension}. Suporte: PDF, DOCX, PPTX, TXT`
+                message: this.validator.getErrorMessage(extension)
+            };
+        }
+
+        if (this.validator.isServerProcessed(file)) {
+            return {
+                success: true,
+                message: `Arquivo ${this.validator.getFileExtension(file.name).toUpperCase()} será processado no servidor`,
+                isServerProcessed: true
             };
         }
 
         try {
+            const extension = this.validator.getFileExtension(file.name);
             let text = '';
 
             switch (extension) {
@@ -30,20 +56,6 @@ class FileTextExtractor {
                 case 'pdf':
                     text = await this.extractFromPdf(file);
                     break;
-                case 'docx':
-                    // Para DOCX, será processado no backend
-                    return {
-                        success: true,
-                        message: 'Arquivo DOCX será processado no servidor',
-                        isServerProcessed: true
-                    };
-                case 'pptx':
-                    // Para PPTX, será processado no backend
-                    return {
-                        success: true,
-                        message: 'Arquivo PPTX será processado no servidor',
-                        isServerProcessed: true
-                    };
                 default:
                     return {
                         success: false,
@@ -64,9 +76,6 @@ class FileTextExtractor {
         }
     }
 
-    /**
-     * Extrai texto de arquivo TXT
-     */
     async extractFromTxt(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -88,11 +97,7 @@ class FileTextExtractor {
         });
     }
 
-    /**
-     * Extrai texto de arquivo PDF usando PDF.js
-     */
     async extractFromPdf(file) {
-        // Verificar se PDF.js está disponível
         if (typeof pdfjsLib === 'undefined') {
             return 'Biblioteca PDF.js não carregada. PDF será processado no servidor.';
         }
@@ -118,14 +123,16 @@ class FileTextExtractor {
             }
         });
     }
+}
 
-    /**
-     * Obtém a extensão do arquivo
-     */
-    getFileExtension(filename) {
-        return filename.split('.').pop().toLowerCase();
+class FileTextExtractor {
+    constructor() {
+        this.extractor = new TextExtractor();
+    }
+
+    async extractText(file) {
+        return this.extractor.extract(file);
     }
 }
 
-// Instância global
 const fileTextExtractor = new FileTextExtractor();
