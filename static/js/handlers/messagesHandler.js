@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    chatForm.addEventListener('submit', function(event) {
+    chatForm.addEventListener('submit', async function(event) {
         event.preventDefault();
 
         const prompt = textarea.value.trim();
@@ -62,16 +62,27 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         messagesList.appendChild(llmMessageDiv);
 
+        // Preparar o FormData com arquivo e texto extraído
+        const formData = new FormData();
+        formData.append('prompt', prompt);
+        if (conversationId) {
+            formData.append('conversation_id', conversationId);
+        }
+
+        // Adicionar arquivo se disponível
+        const uploadedFile = window.fileUploadData?.getUploadedFile();
+        const extractedText = window.fileUploadData?.getExtractedText();
+
+        if (uploadedFile) {
+            formData.append('file', uploadedFile);
+        }
+
         fetch(llmApiUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken
             },
-            body: JSON.stringify({
-                prompt: prompt,
-                conversation_id: conversationId
-            })
+            body: formData
         }).then(response => {
             if (!response.ok) throw new Error("Erro na requisição");
 
@@ -86,7 +97,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             function readChunk() {
                 reader.read().then(({ done, value }) => {
-                    if (done) return;
+                    if (done) {
+                        // Limpar arquivo após o envio
+                        if (window.fileUploadData) {
+                            window.fileUploadData.clearData();
+                        }
+                        return;
+                    }
                     buffer += decoder.decode(value, { stream: true });
                     document.getElementById(uniqueResponseId).textContent = buffer;
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -98,6 +115,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }).catch(error => {
             console.error("Erro:", error);
             document.getElementById(uniqueResponseId).textContent = "Erro ao gerar resposta.";
+            // Limpar arquivo após erro
+            if (window.fileUploadData) {
+                window.fileUploadData.clearData();
+            }
         });
     });
 });

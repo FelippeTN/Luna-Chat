@@ -63,7 +63,7 @@
                             </svg>
                         </button>
                         <button type="submit" class="bg-neutral-600 text-white font-bold py-2 px-2 rounded-3xl shadow-lg shadow-neutral-600/30 transform transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-neutral-500/50 focus:outline-none focus:ring-4 focus:ring-neutral-500/50 self-end">
-                            <img src="{% static 'img/send_icon.png' %}" alt="Enviar" class="h-7 w-7">
+                            <img src="{% static 'img/send_icon.png' %}" alt="Enviar" class="h-6 w-6">
                         </button>
                     </div>
                 </form>
@@ -80,6 +80,11 @@
 
 {% block scripts %}
     {{ block.super }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <script src="{% static 'js/handlers/filetextExtractorHandler.js' %}"></script>
+    <script src="{% static 'js/handlers/filesHandler.js' %}"></script>
+    <script src="{% static 'js/handlers/MessagesHandler.js' %}"></script>
     <script>
         document.getElementById('chat-form').dataset.llmApiUrl = "{% url 'llm_stream_response' %}";
     </script>
