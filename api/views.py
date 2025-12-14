@@ -10,6 +10,7 @@ from drf_yasg.utils import swagger_auto_schema
 from .models import UserConversation
 from .serializers import UserRequestLLMSerializer
 from .serializers import UserRequestLLMSerializer, UserConversationSerializer
+from .text_extractor import extract_text_from_file
 
 load_dotenv()
 GROQ_KEY = os.getenv("GROQ_KEY")
@@ -34,6 +35,12 @@ class LlmStreamResponseView(APIView):
         conversation_id = serializer.validated_data.get("conversation_id")
         max_tokens = serializer.validated_data.get("max_tokens", 2048)
         temperature = serializer.validated_data.get("temperature", 0.7)
+        file_obj = serializer.validated_data.get("file")
+        
+        final_prompt = prompt
+        if file_obj:
+            extracted_text = extract_text_from_file(file_obj)
+            final_prompt = f"{prompt}\n\nTexto extraído do documento:\n{extracted_text}"
 
         if conversation_id:
             conversation, _ = UserConversation.objects.get_or_create(
@@ -47,7 +54,7 @@ class LlmStreamResponseView(APIView):
                 conversation_id=conversation_id
             )
 
-        conversation.add_message(role="user", content=prompt)
+        conversation.add_message(role="user", content=final_prompt)
 
         client = Groq(api_key=GROQ_KEY)
         system_message = {

@@ -7,6 +7,7 @@ class UserRequestLLMSerializer(serializers.Serializer):
     conversation_id = serializers.CharField(required=False, allow_null=True, allow_blank=True) 
     max_tokens = serializers.IntegerField(default=2048)
     temperature = serializers.FloatField(default=0.7)
+    file = serializers.FileField(required=False, allow_null=True)
 
 class UserConversationSerializer(serializers.ModelSerializer):
     class Meta:
